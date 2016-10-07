@@ -1,16 +1,13 @@
 {
   port: 8125,
-  flushInterval: Number(process.env.FLUSH_INTERVAL || 30000),
+  flushInterval: Number(process.env.FLUSH_INTERVAL || 10000),
   backends: [ "./backends/statsd-cloudwatch-backend" ],
-  keyNameSanitize: false,
-  deleteGauges: true,
-  deleteTimers: true,
-  deleteCounters: true,
+  deleteIdleStats: true,
   cloudwatch: {
-    namespace:  process.env.CLOUDWATCH_NAMESPACE || 'test.app',
-    region: process.env.AWS_REGION,
-    dimensions: { },
+    namespace:  process.env.CLOUDWATCH_NAMESPACE || 'docker',
+    region: process.env.AWS_REGION || 'us-east-1',
     accessKeyId:  process.env.AWS_KEY_ID,
-    secretAccessKey: process.env.AWS_KEY
+    secretAccessKey: process.env.AWS_KEY,
+    processKeyForNamespace: true
   }
 }
